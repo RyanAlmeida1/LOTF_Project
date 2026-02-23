@@ -6,7 +6,7 @@ client = anthropic.Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
 if "history" not in st.session_state:
     st.session_state.history = []
 
-character = st.text_input("Who do you want to speak with?")
+character = st.selectbox("Who do you want to speak with?", ["Ralph", "Simon", "Jack", "Piggy"])
 
 if character:
     SYSTEM = f"You are {character} from Lord of the Flies. Only dialogue, no action descriptions. 2-3 complete sentences, always finish on a full stop."
@@ -28,3 +28,4 @@ if character:
         reply = response.content[0].text
         st.session_state.history.append({"role": "assistant", "content": reply})
         st.write(f"**{character}:** {reply}")
+
