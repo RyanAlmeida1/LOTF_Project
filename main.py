@@ -4,7 +4,9 @@ import streamlit as st
 
 client = anthropic.Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
 
-SYSTEM = "You are Ralph from Lord of the Flies, base your speech only on what he would do and how he would say it. Do not describe the characters actions or movements, only dialogue."
+character = st.text_input("Who do you want to speak with? ")
+
+SYSTEM = "You are " + character + " from Lord of the Flies, base your speech only on what he would do and how he would say it. Do not describe the characters actions or movements, only dialogue."
 
 history = []
 
@@ -26,4 +28,5 @@ while True:
     history.append({"role": "assistant", "content": reply})
 
     st.write("Ralph: " + reply)
+
 
