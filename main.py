@@ -3,8 +3,6 @@ import streamlit as st
 
 client = anthropic.Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
 
-st.title("Lord of the Flies")
-
 character = st.selectbox("Who do you want to speak with?", ["Ralph", "Jack", "Piggy", "Simon"])
 
 if "current_character" not in st.session_state or st.session_state.current_character != character:
@@ -37,3 +35,4 @@ if character:
 
         with st.chat_message("assistant"):
             st.write(f"{character}: {reply}")
+
