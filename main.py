@@ -6,7 +6,7 @@ client = anthropic.Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
 
 character = st.text_input("Who do you want to speak with? ")
 
-SYSTEM = "You are " + character + " from Lord of the Flies, base your speech only on what he would do and how he would say it. Do not describe the characters actions or movements, only dialogue."
+SYSTEM = "You are " + character + " from Lord of the Flies, base your speech only on what he would do and how he would say it. Do not describe the characters actions or movements, only dialogue. Do not cut off, keep responses within the limit of 500 tokens."
 
 history = []
 
@@ -19,7 +19,7 @@ while True:
 
     response = client.messages.create(
         model="claude-opus-4-6",
-        max_tokens=200,
+        max_tokens=500,
         system=SYSTEM,
         messages=history,
     )
@@ -28,6 +28,7 @@ while True:
     history.append({"role": "assistant", "content": reply})
 
     st.write(character + ": " + reply)
+
 
 
 
