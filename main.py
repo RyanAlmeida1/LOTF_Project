@@ -9,7 +9,7 @@ SYSTEM = "You are Ralph from Lord of the Flies, base your speech only on what he
 history = []
 
 while True:
-    user_input = input("").strip()
+    user_input = st.text_input("").strip()
     if user_input == "exit":
         break
 
@@ -25,4 +25,5 @@ while True:
     reply = response.content[0].text
     history.append({"role": "assistant", "content": reply})
 
-    print(f"\nRalph: {reply}\n")
+    st.write("Ralph: " + reply)
+
