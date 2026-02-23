@@ -43,7 +43,6 @@ if mode == "Single Character":
 
 # ── 4-way debate mode ──────────────────────────────────────────────────────
 else:
-    st.title("4-Way Debate")
 
     if "debate_history" not in st.session_state:
         st.session_state.debate_history = []
@@ -92,4 +91,5 @@ else:
             if st.button("Clear"):
                 st.session_state.debate_history = []
                 st.rerun()
+
 
