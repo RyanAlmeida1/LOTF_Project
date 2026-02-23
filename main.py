@@ -27,6 +27,7 @@ while True:
     reply = response.content[0].text
     history.append({"role": "assistant", "content": reply})
 
-    st.write("Ralph: " + reply)
+    st.write(character + ": " + reply)
+
 
 
