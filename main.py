@@ -1,6 +1,6 @@
 import anthropic
 import os
-
+import streamlit as st
 
 client = anthropic.Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
 
@@ -24,4 +24,5 @@ while True:
 
     reply = response.content[0].text
     history.append({"role": "assistant", "content": reply})
+
     print(f"\nRalph: {reply}\n")
