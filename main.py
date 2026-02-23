@@ -1,34 +1,39 @@
 import anthropic
-import os
 import streamlit as st
 
 client = anthropic.Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
 
-character = st.text_input("Who do you want to speak with? ")
+st.title("Lord of the Flies")
 
-SYSTEM = "You are " + character + " from Lord of the Flies, base your speech only on what he would do and how he would say it. Do not describe the characters actions or movements, only dialogue. Do not cut off, keep responses within the limit of 500 tokens."
+character = st.selectbox("Who do you want to speak with?", ["Ralph", "Jack", "Piggy", "Simon"])
 
-history = []
+if "current_character" not in st.session_state or st.session_state.current_character != character:
+    st.session_state.history = []
+    st.session_state.current_character = character
 
-while True:
-    user_input = st.text_input("").strip()
-    if user_input == "exit":
-        break
+SYSTEM = f"""You are {character} from Lord of the Flies. Base your speech only on 
+how they would actually talk. Only dialogue — no action descriptions or stage directions. 
+Respond in 2-3 complete sentences. Always finish on a full stop."""
 
-    history.append({"role": "user", "content": user_input})
+if character:
+    for msg in st.session_state.history:
+        role_label = character if msg["role"] == "assistant" else "You"
+        with st.chat_message(msg["role"]):
+            st.write(f"{role_label}: {msg['content']}")
 
-    response = client.messages.create(
-        model="claude-opus-4-6",
-        max_tokens=500,
-        system=SYSTEM,
-        messages=history,
-    )
+    if prompt := st.chat_input(f"Speak to {character}..."):
+        with st.chat_message("user"):
+            st.write(f"You: {prompt}")
+        st.session_state.history.append({"role": "user", "content": prompt})
 
-    reply = response.content[0].text
-    history.append({"role": "assistant", "content": reply})
+        response = client.messages.create(
+            model="claude-opus-4-6",
+            max_tokens=500,
+            system=SYSTEM,
+            messages=st.session_state.history,
+        )
+        reply = response.content[0].text
+        st.session_state.history.append({"role": "assistant", "content": reply})
 
-    st.write(character + ": " + reply)
-
-
-
-
+        with st.chat_message("assistant"):
+            st.write(f"{character}: {reply}")
