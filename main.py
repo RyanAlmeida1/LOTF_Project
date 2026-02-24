@@ -20,6 +20,10 @@ if mode == "Single Character":
 
     character = st.selectbox("Who do you want to speak with?", ["Ralph", "Simon", "Jack", "Piggy"])
 
+    st.write("By Ryan
+    
+             ")
+    
     if character:
         system = SYSTEMS.get(character, f"You are {character} from Lord of the Flies. Only dialogue, no action descriptions. 2-3 complete sentences, always finish on a full stop.")
 
@@ -91,5 +95,6 @@ else:
             if st.button("Clear"):
                 st.session_state.debate_history = []
                 st.rerun()
+
 
 
